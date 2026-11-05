@@ -33,7 +33,7 @@ jobs:
         run: npm run build
       - name: MongoDB replica set de pruebas
         run: |
-          docker run -d --name fekas-mongo -p 27017:27017 mongo:8.0 --replSet fekas-ci --bind_ip_all
+          docker run -d --name fekas-mongo -p 27017:27017 mongo:9.0.4 --replSet fekas-ci --bind_ip_all
           for i in $(seq 1 40); do
             if docker exec fekas-mongo mongosh --quiet --eval 'db.adminCommand({ping:1})' >/dev/null 2>&1; then break; fi
             sleep 1
@@ -76,4 +76,3 @@ jobs:
           docker build -t "$IMAGE:$GITHUB_SHA" -t "$IMAGE:latest" .
           docker push "$IMAGE:$GITHUB_SHA"
           docker push "$IMAGE:latest"
-

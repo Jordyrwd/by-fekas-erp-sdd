@@ -41,7 +41,7 @@ npm run test:integration
 Código Angular en `src/app/core`, `features` y `shared`. API en `server`, esquema original en `database`. `docs/flujo-git.md` explica ramas, PR, rebase, revert y protección. `docs/copilot-prompts.md` incluye prompts y registro de uso real.
 
 ## CI y entrega
-El workflow `Calidad y entrega` ejecuta npm ci, lint, tests, build e integración contra MongoDB 8 en replica set. Conserva el build Angular como artefacto. En main, después de superar calidad, construye y publica una imagen GHCR etiquetada por SHA y `latest`. Eso constituye entrega automatizada de una imagen, no prueba de un despliegue público del ERP.
+El workflow `Calidad y entrega` ejecuta npm ci, lint, tests, build e integración contra MongoDB 9.0.4 en replica set. Conserva el build Angular como artefacto. En main, después de superar calidad, construye y publica una imagen GHCR etiquetada por SHA y `latest`. Eso constituye entrega automatizada de una imagen, no prueba de un despliegue público del ERP.
 
 ## Demostración de cinco minutos
 1. Mostrar especificación RF03 y el contrato de movimientos.
