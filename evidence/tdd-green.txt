@@ -1,0 +1,16 @@
+✔ RF03 salida válida descuenta saldo (0.6593ms)
+✔ RF03 rechaza salida mayor al saldo (0.8221ms)
+✔ RF03 entrada agrega saldo sin error decimal (0.1106ms)
+✔ RF03 rechaza cero y negativos (0.1226ms)
+✔ RF03 rechaza NaN, infinito, texto y precisión excesiva (0.1064ms)
+✔ RF03 rechaza tipo y saldo inválidos (0.1001ms)
+✔ RF03 permite agotar un lote exactamente (0.0567ms)
+✔ RF03 limita el saldo máximo (0.076ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 69.5938

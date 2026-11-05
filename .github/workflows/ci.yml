@@ -1,0 +1,73 @@
+name: Calidad y entrega
+on:
+  push:
+    branches: [main, 'feature/**', 'docs/**']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  calidad:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NG_CLI_ANALYTICS: 'false'
+      MONGO_URI: mongodb://127.0.0.1:27017/?replicaSet=fekas-ci
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Instalación reproducible
+        run: npm ci --no-fund --no-audit
+      - name: Lint y tipos
+        run: npm run lint
+      - name: Pruebas de dominio y Angular
+        run: npm test
+      - name: Compilación de producción
+        run: npm run build
+      - name: MongoDB replica set de pruebas
+        run: |
+          docker run -d --name fekas-mongo -p 27017:27017 mongo:8.0 --replSet fekas-ci --bind_ip_all
+          for i in $(seq 1 40); do
+            if docker exec fekas-mongo mongosh --quiet --eval 'db.adminCommand({ping:1})' >/dev/null 2>&1; then break; fi
+            sleep 1
+          done
+          docker exec fekas-mongo mongosh --quiet --eval 'rs.initiate({_id:"fekas-ci",members:[{_id:0,host:"127.0.0.1:27017"}]})'
+          for i in $(seq 1 40); do
+            if docker exec fekas-mongo mongosh --quiet --eval 'if(!db.hello().isWritablePrimary)quit(1)' >/dev/null 2>&1; then exit 0; fi
+            sleep 1
+          done
+          exit 1
+      - name: Integración y concurrencia reales
+        run: npm run test:integration
+      - name: Conservar build verificable
+        uses: actions/upload-artifact@v6
+        with:
+          name: angular-produccion
+          path: dist/by-fekas-erp-sdd/browser
+          retention-days: 7
+  publicar-imagen:
+    needs: calidad
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v6
+      - name: Publicar imagen en GHCR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY,,}"
+          echo "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+          docker build -t "$IMAGE:$GITHUB_SHA" -t "$IMAGE:latest" .
+          docker push "$IMAGE:$GITHUB_SHA"
+          docker push "$IMAGE:latest"

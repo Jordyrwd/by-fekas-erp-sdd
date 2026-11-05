@@ -1,0 +1,148 @@
+✖ RF03 salida válida descuenta saldo (1.7315ms)
+✖ RF03 rechaza salida mayor al saldo (0.8019ms)
+✖ RF03 entrada agrega saldo sin error decimal (0.1858ms)
+✖ RF03 rechaza cero y negativos (0.1373ms)
+✖ RF03 rechaza NaN, infinito, texto y precisión excesiva (0.1208ms)
+✖ RF03 rechaza tipo y saldo inválidos (0.0931ms)
+✔ RF03 permite agotar un lote exactamente (0.1112ms)
+✖ RF03 limita el saldo máximo (0.0938ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 1
+ℹ fail 7
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 79.9846
+
+✖ failing tests:
+
+test at server\tests\stock.test.mjs:5:1
+✖ RF03 salida válida descuenta saldo (1.7315ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 3
+  
+      at TestContext.<anonymous> (file:///C:/Users/Jordy/Documents/Codex/2026-11-05/c-users-jordy-downloads-portafolio-gestion-2/outputs/by-fekas-erp-sdd/server/tests/stock.test.mjs:5:57)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 3,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at server\tests\stock.test.mjs:6:1
+✖ RF03 rechaza salida mayor al saldo (0.8019ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///C:/Users/Jordy/Documents/Codex/2026-11-05/c-users-jordy-downloads-portafolio-gestion-2/outputs/by-fekas-erp-sdd/server/tests/stock.test.mjs:6:57)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /Stock insuficiente/,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at server\tests\stock.test.mjs:7:1
+✖ RF03 entrada agrega saldo sin error decimal (0.1858ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 0.3
+  
+      at TestContext.<anonymous> (file:///C:/Users/Jordy/Documents/Codex/2026-11-05/c-users-jordy-downloads-portafolio-gestion-2/outputs/by-fekas-erp-sdd/server/tests/stock.test.mjs:7:66)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 0.3,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at server\tests\stock.test.mjs:8:1
+✖ RF03 rechaza cero y negativos (0.1373ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///C:/Users/Jordy/Documents/Codex/2026-11-05/c-users-jordy-downloads-portafolio-gestion-2/outputs/by-fekas-erp-sdd/server/tests/stock.test.mjs:8:79)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: undefined,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at server\tests\stock.test.mjs:9:1
+✖ RF03 rechaza NaN, infinito, texto y precisión excesiva (0.1208ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///C:/Users/Jordy/Documents/Codex/2026-11-05/c-users-jordy-downloads-portafolio-gestion-2/outputs/by-fekas-erp-sdd/server/tests/stock.test.mjs:9:125)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: undefined,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at server\tests\stock.test.mjs:10:1
+✖ RF03 rechaza tipo y saldo inválidos (0.0931ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///C:/Users/Jordy/Documents/Codex/2026-11-05/c-users-jordy-downloads-portafolio-gestion-2/outputs/by-fekas-erp-sdd/server/tests/stock.test.mjs:10:60)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: undefined,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at server\tests\stock.test.mjs:12:1
+✖ RF03 limita el saldo máximo (0.0938ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///C:/Users/Jordy/Documents/Codex/2026-11-05/c-users-jordy-downloads-portafolio-gestion-2/outputs/by-fekas-erp-sdd/server/tests/stock.test.mjs:12:50)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /máximo/,
+    operator: 'throws',
+    diff: 'simple'
+  }

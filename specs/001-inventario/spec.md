@@ -65,4 +65,3 @@ Facturación electrónica, validación tributaria SRI, pagos, nómina, multitena
 
 ## Decisiones aclaradas antes de implementar
 La base es MongoDB, no un arreglo en memoria. Usamos cantidades BSON Decimal128; la API recibe y entrega números con máximo 3 decimales. El retiro es lógico para conservar auditoría. La referencia es única por tenant y actúa como clave de idempotencia.
-
