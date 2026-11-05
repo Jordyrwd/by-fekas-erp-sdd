@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   calidad:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
       NG_CLI_ANALYTICS: 'false'
@@ -38,11 +38,16 @@ jobs:
             if docker exec fekas-mongo mongosh --quiet --eval 'db.adminCommand({ping:1})' >/dev/null 2>&1; then break; fi
             sleep 1
           done
+          if ! docker exec fekas-mongo mongosh --quiet --eval 'db.adminCommand({ping:1})'; then
+            docker logs fekas-mongo
+            exit 1
+          fi
           docker exec fekas-mongo mongosh --quiet --eval 'rs.initiate({_id:"fekas-ci",members:[{_id:0,host:"127.0.0.1:27017"}]})'
           for i in $(seq 1 40); do
             if docker exec fekas-mongo mongosh --quiet --eval 'if(!db.hello().isWritablePrimary)quit(1)' >/dev/null 2>&1; then exit 0; fi
             sleep 1
           done
+          docker logs fekas-mongo
           exit 1
       - name: Integración y concurrencia reales
         run: npm run test:integration
@@ -55,7 +60,7 @@ jobs:
   publicar-imagen:
     needs: calidad
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
       contents: read
@@ -71,3 +76,4 @@ jobs:
           docker build -t "$IMAGE:$GITHUB_SHA" -t "$IMAGE:latest" .
           docker push "$IMAGE:$GITHUB_SHA"
           docker push "$IMAGE:latest"
+
