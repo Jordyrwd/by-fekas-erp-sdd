@@ -1,0 +1,36 @@
+{
+  "code_commit_verified": "027404802b0a87cdba6de0f545d2e5be6f7e6384",
+  "ci_run": "https://github.com/Jordyrwd/by-fekas-erp-sdd/actions/runs/42201409544",
+  "ci_result": "success",
+  "local_tests": {
+    "domain": 8,
+    "angular": 12,
+    "mongodb_integration": 16,
+    "total": 36
+  },
+  "repository": "https://github.com/Jordyrwd/by-fekas-erp-sdd",
+  "main_protection": {
+    "pull_request": true,
+    "approvals": 1,
+    "status_check": "calidad",
+    "strict": true,
+    "dismiss_stale": true,
+    "resolve_conversations": true,
+    "enforce_admins": true
+  },
+  "project": "https://github.com/users/Jordyrwd/projects/1",
+  "project_public": true,
+  "milestone": "https://github.com/Jordyrwd/by-fekas-erp-sdd/milestone/1",
+  "marco_permission": "write",
+  "copilot_real_use": true,
+  "copilot_operated_with": "Codex assistance from Jordyrwd",
+  "pull_requests": {
+    "1": "merged",
+    "5": "changes requested: empty document",
+    "6": "open, Marco personal review pending"
+  },
+  "pending": [
+    "Marco completes actual observations in PR 5",
+    "personal review of latest PR 6 before merge"
+  ]
+}
