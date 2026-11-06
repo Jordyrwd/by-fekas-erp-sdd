@@ -5,8 +5,29 @@ import { Inventory } from '../../core/services/inventory';
 import { Category, Unit } from '../../core/models/inventory';
 import { Feedback, errorMessage } from '../../shared/feedback';
 @Component({ imports: [ReactiveFormsModule, RouterLink, Feedback], template: `
-<a class="back-link" routerLink="/productos">← Volver al catálogo</a><div class="page-heading"><div><p class="eyebrow">CATÁLOGO</p><h1>{{ id ? 'Editar insumo' : 'Nuevo insumo' }}</h1><p>Define cómo se identifica y controla el producto.</p></div></div><app-feedback [error]="error()" [loading]="loading()" />
-<form class="panel form-panel" [formGroup]="form" (ngSubmit)="save()"><h2>Información del producto</h2><div class="form-grid"><label>SKU<input formControlName="sku" placeholder="BAL-050" maxlength="30" /><small>Entre 2 y 30 letras, números o guiones.</small></label><label>Nombre<input formControlName="nombre" placeholder="Nombre del insumo" maxlength="100" /></label><label>Categoría<select formControlName="categoria"><option value="balanceado">Balanceado</option><option value="probiotico">Probiótico</option><option value="quimico">Químico</option><option value="fertilizante">Fertilizante</option><option value="otro">Otro</option></select></label><label>Unidad de medida<select formControlName="unidad"><option value="kg">Kilogramos (kg)</option><option value="l">Litros (l)</option><option value="unidad">Unidades</option></select></label><label>Stock mínimo<input type="number" formControlName="stock_minimo" min="0" max="1000000" step="0.001" /><small>Alerta cuando el saldo sea menor o igual al mínimo.</small></label></div>@if (form.invalid && submitted()) { <p class="field-error" role="alert">Revisa SKU, nombre y mínimo no negativo con hasta 3 decimales.</p> }<div class="form-actions"><a class="button" routerLink="/productos">Cancelar</a><button class="button primary" type="submit" [disabled]="saving() || loading()">{{ saving() ? 'Guardando…' : 'Guardar insumo' }}</button></div></form>` })
+<a class="back-link" routerLink="/productos">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" /></svg>
+  Volver al catálogo
+</a>
+<div class="page-heading"><div><p class="eyebrow">CATÁLOGO</p><h1>{{ id ? 'Editar insumo' : 'Nuevo insumo' }}</h1><p>Define cómo se identifica y controla el producto.</p></div></div>
+<app-feedback [error]="error()" [loading]="loading()" />
+<form class="panel form-panel" [formGroup]="form" (ngSubmit)="save()">
+  <h2>Información del producto</h2>
+  <div class="form-grid">
+    <label>SKU<input formControlName="sku" placeholder="BAL-050" maxlength="30" /><small>Entre 2 y 30 letras, números o guiones.</small></label>
+    <label>Nombre<input formControlName="nombre" placeholder="Nombre del insumo" maxlength="100" /></label>
+    <label>Categoría<select formControlName="categoria"><option value="balanceado">Balanceado</option><option value="probiotico">Probiótico</option><option value="quimico">Químico</option><option value="fertilizante">Fertilizante</option><option value="otro">Otro</option></select></label>
+    <label>Unidad de medida<select formControlName="unidad"><option value="kg">Kilogramos (kg)</option><option value="l">Litros (l)</option><option value="unidad">Unidades</option></select></label>
+    <label>Stock mínimo<input type="number" formControlName="stock_minimo" min="0" max="1000000" step="0.001" /><small>Alerta cuando el saldo sea menor o igual al mínimo.</small></label>
+  </div>
+  @if (form.invalid && submitted()) {
+    <p class="field-error" role="alert">Revisa SKU, nombre y mínimo no negativo con hasta 3 decimales.</p>
+  }
+  <div class="form-actions">
+    <a class="button" routerLink="/productos">Cancelar</a>
+    <button class="button primary" type="submit" [disabled]="saving() || loading()">{{ saving() ? 'Guardando…' : 'Guardar insumo' }}</button>
+  </div>
+</form>` })
 export class ProductForm {
 private readonly api = inject(Inventory); private readonly router = inject(Router); private readonly fb = inject(FormBuilder);
 readonly id = inject(ActivatedRoute).snapshot.paramMap.get('id') ?? undefined;

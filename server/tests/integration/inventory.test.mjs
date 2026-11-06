@@ -38,3 +38,14 @@ test('RF04 calcula alertas con igualdad y separa unidades', async () => { const 
 test('RF05 retiro lógico conserva producto e historial', async () => { const p = (await request('/productos', 'POST', { ...productData, sku: 'SIN-STOCK' })).body; assert.equal((await request(`/productos/${p.id}`, 'DELETE')).status, 200); assert.equal((await request('/productos')).body.find(x => x.id === p.id).activo, false); });
 test('API distingue ID inválido y recurso ausente', async () => { assert.equal((await request('/productos/no-id', 'PUT', productData)).status, 400); assert.equal((await request('/productos/000000000000000000000099', 'PUT', productData)).status, 404); });
 test('RNF01 MongoDB rechaza inserción directa sin campos obligatorios', async () => await assert.rejects(db.collection('insumos_productos').insertOne({ sku: 'INVALIDO' }), error => error.code === 121));
+
+test('RF03 referencia simultánea con cantidades distintas conserva un solo efecto', async () => {
+  // Regresión propuesta por Copilot y contrastada contra MongoDB real.
+  const previous = (await request('/lotes')).body.find(l => l.id === lot.id).cantidad_actual;
+  const common = { lote_id: lot.id, tipo: 'entrada', referencia: 'REF-CONFLICTO-SIM', motivo: 'Revisión de referencia concurrente' };
+  const results = await Promise.all([1, 2].map(cantidad => request('/movimientos', 'POST', { ...common, cantidad })));
+  assert.deepEqual(results.map(r => r.status).sort(), [201, 409]);
+  const stored = await db.collection('movimientos_kardex').findOne({ referencia: common.referencia });
+  assert.equal(await db.collection('movimientos_kardex').countDocuments({ referencia: common.referencia }), 1);
+  assert.equal((await request('/lotes')).body.find(l => l.id === lot.id).cantidad_actual, previous + Number(stored.cantidad.toString()));
+});

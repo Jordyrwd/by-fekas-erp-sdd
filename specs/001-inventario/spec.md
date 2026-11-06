@@ -228,7 +228,7 @@ Referencias para verificar la matriz:
 - Pruebas de servicios y rutas ubicadas en `src/app`.
 - `.github/workflows/ci.yml` y registros de `evidence`.
 
-La suite inicial suma 8 pruebas de dominio, 6 de Angular y 15 de integración. Ese total no representa un porcentaje de cobertura ni garantiza ausencia de defectos.
+La suite ampliada suma 8 pruebas de dominio, 12 de Angular y 16 de integración: 36 en total. Ese total no representa un porcentaje de cobertura ni garantiza ausencia de defectos.
 
 ## 11. Condiciones de aceptación de la entrega
 
@@ -264,3 +264,35 @@ Las condiciones documentales continúan pendientes mientras no exista evidencia.
 6. Solicitar revisión antes de integrar.
 
 Los nombres de herramientas, campos, archivos y rutas se conservan por compatibilidad. La redacción y todos los criterios de aceptación están en español.
+
+## 13. Ampliación de consultas y reportes
+
+### RF06. Ficha del producto
+Como responsable de inventario quiero abrir un producto desde el catálogo o una alerta y consultar su saldo, mínimo, valor referencial, lotes y movimientos relacionados.
+
+- Dado un producto existente, cuando abro su ficha, entonces solo se muestran sus lotes y sus movimientos entre los 200 últimos disponibles.
+- Dado un identificador inexistente, cuando abro la ficha, entonces se informa que el producto no existe y se ofrece volver al catálogo.
+- Los productos retirados conservan su consulta histórica; no se muestran acciones de edición para ellos.
+
+### RF07. Filtrar y exportar kardex
+Como operador quiero filtrar movimientos por texto, tipo y fechas para exportar el resultado de una consulta.
+
+- La búsqueda contempla producto, código, lote, referencia y motivo; los filtros se combinan.
+- Las fechas inicial y final son inclusivas y se interpretan en Ecuador continental.
+- Un intervalo invertido muestra un error y deshabilita la exportación.
+- La exportación CSV incluye solo los resultados visibles, con encabezados, unidad, cantidad y saldo posterior. Si no hay resultados no se exporta.
+- Los textos se escapan para conservar comillas y saltos; las fórmulas potenciales se neutralizan al abrir el archivo en una hoja de cálculo.
+- La consulta y el archivo se limitan a los 200 movimientos recientes que devuelve el servicio. No se presentan como exportación histórica completa.
+
+### RF08. Distribución del valor del inventario
+Como responsable quiero comparar el valor referencial de las categorías para identificar dónde se concentra el inventario.
+
+- El valor de cada lote es su cantidad actual por su costo unitario.
+- La distribución agrupa importes en USD por categoría, sin sumar cantidades de unidades distintas.
+- El gráfico y su leyenda se calculan con los lotes consultados en MongoDB; no se inventan tendencias temporales.
+- Sin valor disponible se muestra la leyenda en cero y una distribución neutra.
+
+La ampliación incorpora seis pruebas de reportes: límites de fecha, combinación de filtros, intervalo inválido, escape CSV, neutralización de fórmulas y valor agrupado. Estas se suman a las 29 pruebas iniciales, para un total de 35.
+
+## 14. Regresión propuesta por Copilot
+La revisión real de RF03 recomendó comprobar referencias concurrentes con contenido diferente. Se incorporó una prueba contra MongoDB que exige respuestas 201 y 409, un único asiento y saldo igual al saldo anterior más la cantidad aceptada. El registro y los límites de la consulta se documentan en docs/copilot-registro-real.md. Esta prueba se suma a las seis de reportes y las 29 iniciales: 36 en total.

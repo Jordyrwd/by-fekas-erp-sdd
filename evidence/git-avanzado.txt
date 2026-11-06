@@ -1,0 +1,102 @@
+LABORATORIO AISLADO; NO REPRESENTA CONTRIBUCIONES DE ESTUDIANTES AL ERP.
+Fechas reales del sistema. Operaciones realizadas: conflicto y resolución, stash, rebase, integración y cherry-pick.
+
+> git init -b main
+Initialized empty Git repository in C:/Users/Jordy/Documents/Codex/2026-11-05/c-users-jordy-downloads-portafolio-gestion-2/work/laboratorio-git/.git/
+> git config user.name Laboratorio académico By Fekas
+> git config user.email laboratorio@example.invalid
+> git add politica.txt
+> git commit -m docs: establecer caso de laboratorio
+[main (root-commit) ba9e760] docs: establecer caso de laboratorio
+ 1 file changed, 1 insertion(+)
+ create mode 100644 politica.txt
+> git switch -c feature/regla
+Switched to a new branch 'feature/regla'
+> git add politica.txt
+> git commit -m feat: proponer validacion de saldo
+[feature/regla 10423ab] feat: proponer validacion de saldo
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+> git switch main
+Switched to branch 'main'
+> git add politica.txt
+> git commit -m feat: proponer registro de kardex
+[main 76e2d91] feat: proponer registro de kardex
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+> git merge feature/regla
+Auto-merging politica.txt
+CONFLICT (content): Merge conflict in politica.txt
+Automatic merge failed; fix conflicts and then commit the result.
+> git add politica.txt
+> git commit -m fix: resolver conflicto conservando ambas reglas
+[main 5b14612] fix: resolver conflicto conservando ambas reglas
+> git stash push --include-untracked -m Trabajo temporal
+Saved working directory and index state On main: Trabajo temporal
+> git stash pop
+Already up to date.
+On branch main
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	nota.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+Dropped refs/stash@{0} (c15622242d3bf68b5c78c6a81f8d797256c1458e)
+> git add nota.txt
+> git commit -m docs: conservar nota recuperada
+[main 369a29a] docs: conservar nota recuperada
+ 1 file changed, 1 insertion(+)
+ create mode 100644 nota.txt
+> git switch -c docs/explicacion
+Switched to a new branch 'docs/explicacion'
+> git add explicacion.txt
+> git commit -m docs: explicar estrategia
+[docs/explicacion 3a7a147] docs: explicar estrategia
+ 1 file changed, 1 insertion(+)
+ create mode 100644 explicacion.txt
+> git switch main
+Switched to branch 'main'
+> git add base.txt
+> git commit -m chore: actualizar base
+[main a86c904] chore: actualizar base
+ 1 file changed, 1 insertion(+)
+ create mode 100644 base.txt
+> git switch docs/explicacion
+Switched to branch 'docs/explicacion'
+> git rebase main
+Rebasing (1/1)
+Successfully rebased and updated refs/heads/docs/explicacion.
+> git switch main
+Switched to branch 'main'
+> git merge --ff-only docs/explicacion
+Updating a86c904..1fa0986
+Fast-forward
+ explicacion.txt | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 explicacion.txt
+> git switch -c fix/nota
+Switched to a new branch 'fix/nota'
+> git add correccion.txt
+> git commit -m fix: corregir nota de demostracion
+[fix/nota 0353f38] fix: corregir nota de demostracion
+ 1 file changed, 1 insertion(+)
+ create mode 100644 correccion.txt
+> git rev-parse HEAD
+0353f381d50181c4963a84c4973586e2986c3f3e
+> git switch main
+Switched to branch 'main'
+> git cherry-pick 0353f381d50181c4963a84c4973586e2986c3f3e
+[main 0353f38] fix: corregir nota de demostracion
+ Date: Fri Nov 6 04:59:03 2026 -0500
+ 1 file changed, 1 insertion(+)
+ create mode 100644 correccion.txt
+> git log --oneline --graph --all
+* 0353f38 fix: corregir nota de demostracion
+* 1fa0986 docs: explicar estrategia
+* a86c904 chore: actualizar base
+* 369a29a docs: conservar nota recuperada
+*   5b14612 fix: resolver conflicto conservando ambas reglas
+|\  
+| * 10423ab feat: proponer validacion de saldo
+* | 76e2d91 feat: proponer registro de kardex
+|/  
+* ba9e760 docs: establecer caso de laboratorio
+> git status --short

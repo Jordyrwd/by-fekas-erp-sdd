@@ -1,0 +1,41 @@
+<a class="back-link" routerLink="/lotes">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" /></svg>
+  Volver a lotes
+</a>
+
+<div class="page-heading">
+  <div>
+    <p class="eyebrow">TRAZABILIDAD</p>
+    <h1>Nuevo lote</h1>
+    <p>Registra el ingreso inicial de un insumo con su código y costo.</p>
+  </div>
+</div>
+
+<app-feedback [error]="error()" [loading]="loading()" />
+
+<form class="panel form-panel" [formGroup]="form" (ngSubmit)="save()">
+  <h2>Información del lote</h2>
+  <div class="form-grid">
+    <label>
+      Producto
+      <select formControlName="producto_id">
+        <option value="">Selecciona un insumo</option>
+        @for (p of products(); track p.id) {
+          <option [value]="p.id">{{ p.sku }} · {{ p.nombre }} ({{ p.unidad }})</option>
+        }
+      </select>
+    </label>
+    <label>Código de lote<input formControlName="codigo_lote" placeholder="LOTE-2026-07" maxlength="50" /></label>
+    <label>Cantidad inicial<input type="number" formControlName="cantidad" min="0.001" max="1000000" step="0.001" /></label>
+    <label>Costo unitario en USD<input type="number" formControlName="costo_unitario" min="0" max="1000000" step="0.001" /></label>
+    <label>Vencimiento opcional<input type="date" formControlName="vence_at" /></label>
+  </div>
+  @if (form.invalid && submitted()) {
+    <p class="field-error" role="alert">Selecciona producto, código de al menos 2 caracteres y cantidad positiva.</p>
+  }
+  <p class="demo-note">El alta crea el lote y su entrada inicial en una sola transacción.</p>
+  <div class="form-actions">
+    <a class="button" routerLink="/lotes">Cancelar</a>
+    <button class="button primary" type="submit" [disabled]="saving() || loading()">{{ saving() ? 'Guardando…' : 'Guardar lote y entrada' }}</button>
+  </div>
+</form>

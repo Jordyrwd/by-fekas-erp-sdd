@@ -1,0 +1,54 @@
+<a class="back-link" routerLink="/movimientos">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" /></svg>
+  Volver al kardex
+</a>
+
+<div class="page-heading">
+  <div>
+    <p class="eyebrow">KARDEX</p>
+    <h1>Registrar movimiento</h1>
+    <p>Una entrada o salida con referencia única y saldo verificable.</p>
+  </div>
+</div>
+
+<app-feedback [error]="error()" [loading]="loading()" />
+
+<form class="panel form-panel" [formGroup]="form" (ngSubmit)="save()">
+  <h2>Datos del movimiento</h2>
+  <div class="form-grid">
+    <label>
+      Lote
+      <select formControlName="lote_id">
+        <option value="">Selecciona un lote</option>
+        @for (l of lots(); track l.id) {
+          <option [value]="l.id">{{ l.producto?.sku }} · {{ l.codigo_lote }} · Saldo {{ l.cantidad_actual }} {{ l.producto?.unidad }}</option>
+        }
+      </select>
+    </label>
+    <label>
+      Tipo
+      <select formControlName="tipo">
+        <option value="salida">Salida de bodega</option>
+        <option value="entrada">Entrada a bodega</option>
+      </select>
+    </label>
+    <label>Cantidad<input type="number" formControlName="cantidad" min="0.001" max="1000000" step="0.001" /></label>
+    <label>
+      Referencia única
+      <input formControlName="referencia" maxlength="80" />
+      <small>Evita registrar dos veces una misma solicitud.</small>
+    </label>
+    <label class="full-width">
+      Motivo
+      <input formControlName="motivo" placeholder="Ej. Alimentación de piscinas, turno de la mañana" maxlength="200" />
+    </label>
+  </div>
+  @if (form.invalid && submitted()) {
+    <p role="alert" class="field-error">Completa lote, cantidad positiva, referencia y motivo de al menos 3 caracteres.</p>
+  }
+  <p class="demo-note">El saldo del lote y el asiento del kardex se guardan en una sola transacción.</p>
+  <div class="form-actions">
+    <a class="button" routerLink="/movimientos">Cancelar</a>
+    <button class="button primary" type="submit" [disabled]="saving() || loading()">{{ saving() ? 'Registrando…' : 'Registrar movimiento' }}</button>
+  </div>
+</form>

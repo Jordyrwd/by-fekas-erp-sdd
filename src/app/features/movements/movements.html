@@ -1,3 +1,55 @@
-<div class="page-heading"><div><p class="eyebrow">KARDEX</p><h1>Movimientos de inventario</h1><p>Cada entrada y salida conserva referencia y saldo verificable.</p></div></div><app-feedback [error]="error()" [success]="success()" [loading]="loading()" />
-<form class="panel form-panel" [formGroup]="form" (ngSubmit)="save()"><h2>Registrar movimiento</h2><div class="form-grid"><label>Lote<select formControlName="lote_id"><option value="">Selecciona un lote</option>@for (l of lots(); track l.id) { <option [value]="l.id">{{ l.producto?.sku }} · {{ l.codigo_lote }} · Saldo {{ l.cantidad_actual }} {{ l.producto?.unidad }}</option> }</select></label><label>Tipo<select formControlName="tipo"><option value="salida">Salida de bodega</option><option value="entrada">Entrada a bodega</option></select></label><label>Cantidad<input type="number" formControlName="cantidad" min="0.001" max="1000000" step="0.001" /></label><label>Referencia única<input formControlName="referencia" maxlength="80" /><small>Evita registrar dos veces una misma solicitud.</small></label><label class="full-width">Motivo<input formControlName="motivo" placeholder="Ej. Alimentación de piscinas, turno de la mañana" maxlength="200" /></label></div>@if (form.invalid && submitted()) { <p role="alert" class="field-error">Completa lote, cantidad positiva, referencia y motivo de al menos 3 caracteres.</p> }<div class="form-actions"><span class="muted">Saldo y kardex se guardan en una sola transacción.</span><button class="button primary" type="submit" [disabled]="saving() || loading()">{{ saving() ? 'Registrando…' : 'Registrar movimiento' }}</button></div></form>
-<section class="panel"><div class="panel-heading"><div><h2>Historial del kardex</h2><p>Hasta 200 movimientos recientes</p></div></div><div class="table-scroll"><table><thead><tr><th>Fecha e insumo</th><th>Tipo</th><th>Cantidad</th><th>Saldo posterior</th><th>Referencia y motivo</th></tr></thead><tbody>@for (m of movements(); track m.id) { <tr><td><b>{{ m.lote?.producto?.nombre }}</b><small>{{ m.fecha | date:'dd/MM/yyyy HH:mm' }} · {{ m.lote?.codigo_lote }}</small></td><td><span class="badge" [class.amber]="m.tipo === 'salida'">{{ m.tipo }}</span></td><td>{{ m.cantidad }} {{ m.lote?.producto?.unidad }}</td><td>{{ m.saldo_posterior }} {{ m.lote?.producto?.unidad }}</td><td><span class="mono">{{ m.referencia }}</span><small>{{ m.motivo }}</small></td></tr> }@if (!movements().length && !loading()) { <tr><td class="empty" colspan="5">Aún no hay movimientos.</td></tr> }</tbody></table></div></section>
+<div class="page-heading">
+  <div>
+    <p class="eyebrow">KARDEX</p>
+    <h1>Movimientos de inventario</h1>
+    <p>Cada entrada y salida conserva referencia y saldo verificable.</p>
+  </div>
+  <a class="button primary" routerLink="/movimientos/nuevo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+    Registrar movimiento
+  </a>
+</div>
+
+<app-feedback [error]="error()" [success]="success()" [loading]="loading()" />
+
+<section class="panel">
+  <div class="panel-heading">
+    <div>
+      <h2>Historial del kardex</h2>
+      <p>Hasta 200 movimientos recientes</p>
+    </div>
+    <button class="button" (click)="exportCsv()" [disabled]="loading() || !filtered().length || invalidRange()">↓ Exportar CSV</button>
+  </div>
+<div class="report-filters"><label class="search-field">Buscar producto, lote o referencia<input type="search" placeholder="Nombre, SKU, lote o motivo…" [ngModel]="search()" (ngModelChange)="search.set($event)" /></label><label>Tipo<select [ngModel]="typeFilter()" (ngModelChange)="typeFilter.set($event)"><option value="">Todos</option><option value="entrada">Entradas</option><option value="salida">Salidas</option></select></label><label>Desde<input type="date" [ngModel]="from()" (ngModelChange)="from.set($event)" /></label><label>Hasta<input type="date" [ngModel]="to()" (ngModelChange)="to.set($event)" /></label><button class="text-button" (click)="clearFilters()">Limpiar</button></div>
+@if (invalidRange()) { <p class="range-error" role="alert">La fecha inicial debe ser anterior o igual a la fecha final.</p> }
+<div class="report-summary" aria-live="polite"><span><b>{{ filtered().length }}</b> movimientos encontrados</span><span class="badge">{{ entryCount() }} entradas</span><span class="badge amber">{{ exitCount() }} salidas</span><small>La exportación respeta los filtros activos.</small></div>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Fecha e insumo</th>
+          <th>Tipo</th>
+          <th class="num">Cantidad</th>
+          <th class="num">Saldo posterior</th>
+          <th>Referencia y motivo</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (m of filtered(); track m.id) {
+          <tr>
+            <td><b>{{ m.lote?.producto?.nombre }}</b><small>{{ m.fecha | date:'dd/MM/yyyy HH:mm':'-0500' }} · {{ m.lote?.codigo_lote }}</small></td>
+            <td>
+              <span class="badge" [class.in]="m.tipo === 'entrada'" [class.out]="m.tipo === 'salida'">{{ m.tipo }}</span>
+            </td>
+            <td class="num">{{ m.cantidad }} {{ m.lote?.producto?.unidad }}</td>
+            <td class="num">{{ m.saldo_posterior }} {{ m.lote?.producto?.unidad }}</td>
+            <td><span class="mono">{{ m.referencia }}</span><small>{{ m.motivo }}</small></td>
+          </tr>
+        }
+        @if (!filtered().length && !loading()) {
+          <tr><td class="empty" colspan="5">No hay movimientos que coincidan con los filtros.</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
