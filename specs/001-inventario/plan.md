@@ -51,7 +51,7 @@ El conjunto de réplicas habilita transacciones. Los reintentos transaccionales 
 | Rama principal y ramas breves | Dos integrantes y una sola versión activa | Requiere revisión y controles antes de integrar |
 
 ## 6. Verificación y riesgos
-La suite inicial contiene 8 pruebas de dominio, 12 Angular y 15 de integración MongoDB. Se comprueban límites, duplicados, concurrencia, repetición segura y retiro. La demostración visual complementa las pruebas; no equivale a cobertura completa de interacción de usuario.
+La suite inicial contiene 8 pruebas de dominio, 12 Angular y 16 de integración MongoDB. Se comprueban límites, duplicados, concurrencia, repetición segura y retiro. La demostración visual complementa las pruebas; no equivale a cobertura completa de interacción de usuario.
 
 Los riesgos principales son ejecutar MongoDB sin transacciones, publicar la demostración sin autenticación, modificar contratos sin actualizar clientes y confundir un reintento con una operación nueva. Se controlan con la configuración de conjunto de réplicas, enlace local, revisión de contrato y referencia estable.
 

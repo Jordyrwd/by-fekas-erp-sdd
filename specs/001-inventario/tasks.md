@@ -22,3 +22,9 @@ La tabla distingue el producto técnico disponible de la participación personal
 4. Registrar una interacción real con Copilot y evaluarla.
 5. Revisar personalmente, resolver observaciones e integrar el PR.
 6. Actualizar las capturas y el informe con el resultado real.
+
+## Avance comprobado de cierre
+- Jordy aportó la separación de altas mediante rutas independientes y el diseño conservado en la ampliación.
+- Se configuró protección real de main y tablero público con las incidencias y PR del equipo; se asignó el hito existente.
+- Se ejecutó Copilot Free y se verificó una regresión propuesta contra MongoDB.
+- El PR 5 de Marco sigue requiriendo contenido; el PR 6 requiere su revisión del último cambio.

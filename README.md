@@ -60,7 +60,7 @@ El caso de empresa y los datos son ficticios. La API usa un tenant, granja, bode
 - Ficha de cada producto con saldo, valor, lotes e historial relacionado.
 - Kardex con búsqueda, filtros por tipo y fechas inclusivas de Ecuador y exportación CSV de resultados.
 - Distribución del valor referencial por categoría con datos de MongoDB.
-- 35 pruebas: 8 de dominio, 12 Angular y 15 de integración.
+- 36 pruebas: 8 de dominio, 12 Angular y 16 de integración.
 
 ## Estado de revisión
 El PR 1 fue integrado a main. La ampliación de consultas se presenta en una nueva rama para revisión antes de integrar. El aporte documental de Marco requiere completar docs/revision-marco.md y abrir su propio PR. Las capturas de GitHub conservan sus fechas reales. Consulta docs/guia-entrega.md.

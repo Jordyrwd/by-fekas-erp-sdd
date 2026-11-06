@@ -228,7 +228,7 @@ Referencias para verificar la matriz:
 - Pruebas de servicios y rutas ubicadas en `src/app`.
 - `.github/workflows/ci.yml` y registros de `evidence`.
 
-La suite ampliada suma 8 pruebas de dominio, 12 de Angular y 15 de integración: 35 en total. Ese total no representa un porcentaje de cobertura ni garantiza ausencia de defectos.
+La suite ampliada suma 8 pruebas de dominio, 12 de Angular y 16 de integración: 36 en total. Ese total no representa un porcentaje de cobertura ni garantiza ausencia de defectos.
 
 ## 11. Condiciones de aceptación de la entrega
 
@@ -293,3 +293,6 @@ Como responsable quiero comparar el valor referencial de las categorías para id
 - Sin valor disponible se muestra la leyenda en cero y una distribución neutra.
 
 La ampliación incorpora seis pruebas de reportes: límites de fecha, combinación de filtros, intervalo inválido, escape CSV, neutralización de fórmulas y valor agrupado. Estas se suman a las 29 pruebas iniciales, para un total de 35.
+
+## 14. Regresión propuesta por Copilot
+La revisión real de RF03 recomendó comprobar referencias concurrentes con contenido diferente. Se incorporó una prueba contra MongoDB que exige respuestas 201 y 409, un único asiento y saldo igual al saldo anterior más la cantidad aceptada. El registro y los límites de la consulta se documentan en docs/copilot-registro-real.md. Esta prueba se suma a las seis de reportes y las 29 iniciales: 36 en total.
