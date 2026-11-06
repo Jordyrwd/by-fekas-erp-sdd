@@ -64,3 +64,6 @@ El contenedor reúne Angular compilado y la interfaz de servicios; MongoDB se ma
 
 ## 8. Consultas ampliadas
 La ruta /producto/:id agrega ficha con lotes e historial. Los filtros y la exportación del kardex se calculan en la interfaz sobre los últimos 200 registros recibidos. Las funciones puras de reportes residen en src/app/shared/inventory-report.ts y se verifican con seis pruebas específicas. El panel calcula la distribución monetaria con lotes de MongoDB y presenta los valores también como texto.
+
+## 9. Conservación de la navegación del equipo
+Se incorporan las altas en /lotes/nuevo y /movimientos/nuevo como componentes independientes. La organización del código se explica en docs/estructura-proyecto.md. Los listados conservan el diseño de Jordy y los reportes se integran sin eliminar esas rutas.

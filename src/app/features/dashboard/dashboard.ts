@@ -9,6 +9,7 @@ import { inventoryValue } from '../../shared/inventory-report';
 @Component({ imports: [CurrencyPipe, DatePipe, DecimalPipe, RouterLink, Feedback], templateUrl: './dashboard.html' })
 export class Dashboard {
 readonly summary = signal<Summary | null>(null); readonly error = signal(''); private readonly api = inject(Inventory);
+readonly maxCategoria = computed(() => Math.max(1, ...(this.summary()?.categorias ?? []).map(c => c.total)));
 readonly lots = signal<Lot[]>([]);
 readonly distribution = computed(() => inventoryValue(this.lots()));
 readonly valuedCategories = computed(() => this.distribution().filter(c => c.value > 0).length);
