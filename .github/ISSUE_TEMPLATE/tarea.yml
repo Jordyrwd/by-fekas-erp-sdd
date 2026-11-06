@@ -1,0 +1,16 @@
+name: Tarea del proyecto
+description: Cambio trazable a la especificación
+body:
+  - type: textarea
+    id: alcance
+    attributes:
+      label: Requisito y resultado esperado
+      placeholder: RF03 — impedir salidas superiores al saldo
+    validations:
+      required: true
+  - type: textarea
+    id: aceptacion
+    attributes:
+      label: Criterio de aceptación y prueba
+    validations:
+      required: true

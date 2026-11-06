@@ -1,0 +1,24 @@
+services:
+  mongo:
+    image: mongo:9.0.4
+    command: [mongod, --replSet, fekas-docker, --bind_ip_all]
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: [CMD-SHELL, "mongosh --quiet --eval 'try { if (!rs.status().ok) quit(1); } catch { rs.initiate({_id:\"fekas-docker\",members:[{_id:0,host:\"mongo:27017\"}]}); quit(1); } if (!db.hello().isWritablePrimary) quit(1);'"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  erp:
+    build: .
+    ports:
+      - '127.0.0.1:3000:3000'
+    environment:
+      MONGO_URI: mongodb://mongo:27017/?replicaSet=fekas-docker
+      DB_NAME: by_fekas_corp_demo
+      HOST: 0.0.0.0
+    depends_on:
+      mongo:
+        condition: service_healthy
+volumes:
+  mongo-data:
